@@ -1,41 +1,37 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SearchFormStyled } from './SearchForm.styled';
 import { SearchFormInput } from './SearchFormInput/SearchFormInput';
 import { SearchFormButton } from './SearchFormButton/SearchFormButton';
+import { useState } from 'react';
 
-export class SearchForm extends Component {
-  state = {
-    inputText: '',
+export const SearchForm = ({onSubmit}) => {
+  const [inputText, setInputText] = useState('');
+
+  const handleTextChange = event => {
+    setInputText(event.currentTarget.value);
   };
 
-  handleTextChange = event => {
-    this.setState({ inputText: event.currentTarget.value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.inputText.trim() === '') {
+    if (inputText.trim() === '') {
       return;
     }
 
-    this.props.onSubmit(this.state.inputText);
-    this.setState({ inputText: '' });
+    onSubmit(inputText);
+    setInputText('');
   };
 
-  render() {
     return (
-      <SearchFormStyled onSubmit={this.handleSubmit}>
+      <SearchFormStyled onSubmit={handleSubmit}>
         <SearchFormButton />
         <SearchFormInput
-          value={this.state.inputText}
-          onChange={this.handleTextChange}
+          value={inputText}
+          onChange={handleTextChange}
         />
       </SearchFormStyled>
     );
   }
-}
 
 SearchForm.propType = {
   inputText: PropTypes.string.isRequired,
