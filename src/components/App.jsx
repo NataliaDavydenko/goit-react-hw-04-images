@@ -47,7 +47,7 @@ export const App = () => {
     const fetch = async () => {
       setLoading(true);
       await fetchImages(inputText, page).then(data => {
-        setGallery(prevState => [...prevState.gallery, ...data.hits]);
+        setGallery(prevState => [...prevState, ...data.hits]);
         setTotal(data.totalHits);
       });
       setLoading(false);
